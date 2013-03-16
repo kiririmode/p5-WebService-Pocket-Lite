@@ -14,8 +14,8 @@ my $REQUEST_URL = 'https://getpocket.com/v3/oauth/request';
 my $agent = LWP::UserAgent->new;
 
 my $file = file($Bin)->parent->subdir('01.info')->file('app-info.yaml');
-my $dat  = LoadFile($file);
-my $consumer_key = $dat->{'ConsumerKey'};
+my $conf  = LoadFile($file);
+my $consumer_key = $conf->{'ConsumerKey'};
 
 debugf("sending request with consumer key: $consumer_key");
 my $res = $agent->post(
@@ -29,7 +29,7 @@ my $res = $agent->post(
 debugf("http statusline: [", $res->status_line, "]");
 if ( $res->is_success ) {
     my $content = $res->content;
-    my $body = HTTP::Body->new( $res->header('Content-Type'), $res->header('Content-Length'));
+    my $body    = HTTP::Body->new( $res->header('Content-Type'), $res->header('Content-Length') );
     $body->add($content);
 
     my $request_token = $body->param->{'code'};

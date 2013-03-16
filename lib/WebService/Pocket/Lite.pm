@@ -3,11 +3,11 @@ use strict;
 use warnings;
 use LWP::UserAgent;
 use JSON;
+use URI::Escape;
 use Class::Accessor::Lite (
     ro => [ qw/request_token consumer_key access_token/ ],
     rw => [ qw/username access_token queue errorcode error user_limit user_remaining user_reset key_limit key_remaining key_reset/ ],
 );
-use URI::Escape;
 
 our $VERSION = '0.01';
 
