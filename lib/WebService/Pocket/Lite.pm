@@ -80,6 +80,43 @@ my @api_sets = (
     }
 }
 
+=head1 Methods
+
+=over 4
+
+=item new( %args )
+
+Creates new object.  I<%args> takes some mandatory parameters.
+
+=over 8
+
+=item consumer_key
+
+Consumer key for your application.
+Obtain it by registering your app with Pocket web site.
+
+=item access_token
+
+Pocket access token.
+It can be retrieved through Pocket authorize API.  To use authorize API, request token is required.
+
+=item request_token
+
+Pocket request token.
+You don't have to set this parameter in general use, althgouth it is necessary when converting to request token into a Pocket access token.
+
+=item ua
+
+UserAgent WebService::Pocket::Lite internally use.
+if not specified, I<LWP::UserAgent> is used.
+
+=item
+
+=back
+
+=back
+
+=cut
 
 sub new {
     my ($class, %arg) = @_;
@@ -143,6 +180,17 @@ sub _replace_tags {
     $h;
 }
 
+=over 4
+
+=item authorize()
+
+Convert a request token into a Pocket access token.
+
+I<consumer_key> and I<request_token> passed to Constructor C<new> are automatically used.
+By calling this method, access token and your usename are stored internally, and can be accessed by C<access_token> and C<username> method, respectively.
+
+=cut
+
 sub authorize {
     my ($self) = @_;
 
@@ -157,6 +205,16 @@ sub authorize {
     $self;
 }
 
+=item add( \%param )
+
+Save an itme to your Pocket list.
+
+Only one item can be added by each request.  If you want to add many items, use C<push_add> and C<send> methods.
+
+Specifying C<%param>, see C<http://getpocket.com/developer/docs/v3/add>.  Only C<url> is required.  C<consumer_key> and C<access_token> are automatically set by this module.
+
+=cut
+
 sub add {
     my ($self, $arg) = @_;
     _param_check({ url => 1, title => 0, tags => 0, tweet_id => 0 }, $arg);
@@ -170,6 +228,23 @@ sub add {
     $res->{item}->{item_id};
 }
 
+=item retrieve( \%param )
+
+Retrieve items from your Pocket list.
+Search conditions can be passed by using I<%param>.  This parameter is optional, but specifying it is strongly recommended because of Pocket server load.
+You should carefully read "Best Practices" in C<http://getpocket.com/developer/docs/v3/retrieve>.
+
+Specifying search conditions is easy to understand with API document C<http://getpocket.com/developer/docs/v3/retrieve>.
+
+Sample Code:
+
+  my $res = $lite->retrieve({
+    since => 13488852386,
+    state => 'unread',
+  });
+
+=cut
+
 sub retrieve {
     my ($self, $arg) = @_;
     _param_check({ state => 0, favorite => 0, tag => 0, contentType => 0, sort => 0,
@@ -181,6 +256,49 @@ sub retrieve {
 	access_token => $self->access_token,
     });
 }
+
+=item send()
+
+This methods sends queued requests to Pocket in bulk.
+
+Requests can be queued by calling push_* methods.
+
+    $lite->push_add( url => 'http://metacpan.org/' );
+    $lite->push_add( url => 'http://cpants.cpanauthors.org/' );
+    $lite->push_tags_replace( item_id => 100, tags => [qw/tag1 tag2/] );
+    $lite->send;      # 3 requests are sent.
+
+
+push_* methods are as follows.
+All takes parameter hash C<%param>.  These methods take different parameter set.  See C<http://getpocket.com/developer/docs/v3/modify>.
+
+=over 8
+
+=item push_add( \%param )
+
+=item push_modify( \%param )
+
+=item push_(un)?archive( \%param )
+
+=item push_(un)?favorite( \%param )
+
+=item push_delete( \%param )
+
+=item push_tags_add( \%param )
+
+=item push_tags_remove( \%param )
+
+=item push_tags_replace( \%param )
+
+=item push_tags_clear( \%param )
+
+=item push_tag_rename( \%param )
+
+=back
+
+=back
+
+=cut
 
 sub send {
     my ($self) = @_;
