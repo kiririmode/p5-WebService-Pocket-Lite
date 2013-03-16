@@ -9,9 +9,6 @@ use Class::Accessor::Lite (
 );
 use URI::Escape;
 
-# use Data::Printer;
-# use Data::Dumper;
-
 our $VERSION = '0.01';
 
 my $POCKET_URL = 'https://getpocket.com/v3';
