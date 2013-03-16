@@ -14,6 +14,7 @@ author_tests 'xt';
 test_requires 'Test::More';
 test_requires 'Test::Exception';
 test_requires 'Test::LWP::UserAgent';
+test_requires 'Sub::Uplevel';  # Test::Exception requires ?
 
 auto_set_repository;
 auto_include;
