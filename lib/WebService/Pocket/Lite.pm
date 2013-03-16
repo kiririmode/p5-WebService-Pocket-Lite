@@ -181,6 +181,8 @@ sub _replace_tags {
     $h;
 }
 
+=over 4
+
 =item retrieve_request_token( \%param )
 
 Obtain a request token.
