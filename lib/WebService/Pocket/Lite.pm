@@ -36,6 +36,7 @@ my @api_sets = (
     [ 'push_tag_rename',  'tag_rename',   { itme_id => 1, old_tag => 1, new_tag => 1, time => 0 } ],
 );
 
+# define push* methods dinamically.
 {
     no strict 'refs';
     foreach my $set (@api_sets) {
