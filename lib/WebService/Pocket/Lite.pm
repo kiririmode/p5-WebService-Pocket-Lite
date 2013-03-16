@@ -12,7 +12,7 @@ use Class::Accessor::Lite (
 our $VERSION = '0.01';
 
 my $POCKET_URL = 'https://getpocket.com/v3';
-my %ratelimit_map = (
+my %ratelimit_header_map = (
     'X-Limit-User-Limit'     => 'user_limit',
     'X-Limit-User-Remaining' => 'user_remaining',
     'X-Limit-User-Reset'     => 'user_reset',
@@ -72,8 +72,8 @@ sub _post {
 	Content => to_json($param),
     );
 
-    foreach my $header (keys %ratelimit_map) {
-	my $methodname = $ratelimit_map{$header};
+    foreach my $header (keys %ratelimit_header_map) {
+	my $methodname = $ratelimit_header_map{$header};
 	my $val = $res->header($header);
 
 	$self->$methodname( $val ) if defined $val;
