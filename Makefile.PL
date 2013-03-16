@@ -1,5 +1,5 @@
 use inc::Module::Install;
-name 'WebService::Pocket::Lite';
+name 'WebService-Pocket-Lite';
 all_from 'lib/WebService/Pocket/Lite.pm';
 
 requires 'Class::Accessor::Lite';
