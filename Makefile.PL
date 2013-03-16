@@ -1,13 +1,16 @@
 use inc::Module::Install;
-name '[% dist %]';
-all_from 'lib/[% module_unix_path %].pm';
+name 'WebService::Pocket::Lite';
+all_from 'lib/WebService/Pocket/Lite.pm';
 
-# requires '';
+requires 'Class::Accessor::Lite';
 
 tests 't/*.t';
 author_tests 'xt';
 
 test_requires 'Test::More';
+test_requires 'Test::Exception';
+test_requires 'Test::LWP::UserAgent';
+
 auto_set_repository;
 auto_include;
 WriteAll;
