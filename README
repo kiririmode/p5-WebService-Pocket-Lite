@@ -1,14 +1,11 @@
-This is Perl module [% module %].
+This is Perl module WebService::Pocket::Lite
 
 INSTALLATION
 
-[% module %] installation is straightforward. If your CPAN shell is set up,
-you should just be able to do
+WebService::Pocket::Lite installation is straightforward. 
 
-    % cpan [% module %]
-
-Download it, unpack it, then build it as per the usual:
-
+    % git clone git://github.com/kiririmode/p5-WebService-Pocket-Lite.git
+    % cd p5-WebService-Pocket-Lite
     % perl Makefile.PL
     % make && make test
 
@@ -18,10 +15,10 @@ Then install it:
 
 DOCUMENTATION
 
-[% module %] documentation is available as in POD. So you can do:
+ documentation is available as in POD. So you can do:
 
-    % perldoc [% module %]
+    % perldoc WebService::Pocket::Lite
 
 to read the documentation online with your favorite pager.
 
-[% config.author %]
+kiririmode
