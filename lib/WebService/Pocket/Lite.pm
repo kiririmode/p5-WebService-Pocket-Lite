@@ -49,7 +49,7 @@ my %ratelimit_header_map = (
     'X-Limit-User-Limit'     => 'user_limit',
     'X-Limit-User-Remaining' => 'user_remaining',
     'X-Limit-User-Reset'     => 'user_reset',
-    'X-Limit-Key-Limit:'     => 'key_limit',
+    'X-Limit-Key-Limit'      => 'key_limit',
     'X-Limit-Key-Remaining'  => 'key_remaining',
     'X-Limit-Key-Reset'	     => 'key_reset'
 );
