@@ -21,7 +21,7 @@ my %ratelimit_header_map = (
     'X-Limit-Key-Reset'	     => 'key_reset'
 );
 
-my @modify_api_sets = (
+my @api_sets = (
     [ 'push_add',         'add',          { item_id => 0, ref_id => 0, tags => 0, time => 0, title => 0, url => 1 } ],
     [ 'push_modify',      'add',          { item_id => 1, ref_id => 0, tags => 0, time => 0, title => 0, url => 0 } ],
     [ 'push_archive',     'archive',      { item_id => 1, time => 0, } ],
@@ -38,7 +38,7 @@ my @modify_api_sets = (
 
 {
     no strict 'refs';
-    foreach my $set (@modify_api_sets) {
+    foreach my $set (@api_sets) {
 	my $method = __PACKAGE__ . '::' . $set->[0];
         *{$method} = sub {
 	    my ($self, $param) = @_;
