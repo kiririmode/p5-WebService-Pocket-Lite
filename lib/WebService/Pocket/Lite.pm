@@ -287,6 +287,7 @@ sub retrieve {
 This methods sends queued requests to Pocket in bulk.
 
 Requests can be queued by calling push_* methods.
+If queue is empty, it returns undef.
 
     $lite->push_add( url => 'http://metacpan.org/' );
     $lite->push_add( url => 'http://cpants.cpanauthors.org/' );
@@ -327,6 +328,8 @@ All takes parameter hash C<%param>.  These methods take different parameter set.
 
 sub send {
     my ($self) = @_;
+
+    return if scalar @{$self->queue} == 0;
 
     my $res = $self->_post('/send', {
 	actions      => $self->queue,

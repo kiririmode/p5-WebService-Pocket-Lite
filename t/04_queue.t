@@ -24,4 +24,6 @@ $lite->send;
 
 is scalar(@{$lite->queue}), 0;
 
+ok not defined($lite->send);
+
 done_testing;
