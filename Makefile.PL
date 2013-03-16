@@ -3,6 +3,10 @@ name 'WebService-Pocket-Lite';
 all_from 'lib/WebService/Pocket/Lite.pm';
 
 requires 'Class::Accessor::Lite';
+requires 'Carp';
+requires 'JSON';
+requires 'LWP::UserAgent';
+requires 'URI::Escape';
 
 tests 't/*.t';
 author_tests 'xt';
