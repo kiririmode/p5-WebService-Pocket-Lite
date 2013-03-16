@@ -1,4 +1,36 @@
 package WebService::Pocket::Lite;
+
+=head1 NAME
+
+WebService::Pocket::Lite - Pocket Client for Perl
+
+=head1 SYNOPSIS
+
+  use WebService::Pocket::Lite;
+
+  my $lite = WebService::Pocket::Lite->new(
+    access_token => 'your access token',
+    consumer_key => 'consumer key',
+  );
+
+  # retrieve entries from your Pocket.
+  my $res = $lite->retrieve( state => 'unread', tag => 'perl' );
+
+  # add a entry to your Pocket.
+  $lite->add( url => 'http://www.cpan.org' );
+
+  # add some entries and change tags of another entry with 1 request.
+  $lite->push_add( url => 'http://metacpan.org/' );
+  $lite->push_add( url => 'http://cpants.cpanauthors.org/' );
+  $lite->push_tags_replace( item_id => 100, tags => [qw/tag1 tag2/] );
+  $lite->send;
+
+=head1 DESCRIPTION
+
+WebService::Pocket::Lite is a Perl client for Pocket (formerly Read it Later).
+
+=cut
+
 use strict;
 use warnings;
 use LWP::UserAgent;
@@ -47,6 +79,7 @@ my @api_sets = (
 	}
     }
 }
+
 
 sub new {
     my ($class, %arg) = @_;
@@ -189,40 +222,13 @@ sub _param_check {
 1;
 __END__
 
-=head1 NAME
-
-WebService::Pocket::Lite - Pocket Client for Perl
-
-=head1 SYNOPSIS
-
-  use WebService::Pocket::Lite;
-
-  my $lite = WebService::Pocket::Lite->new(
-    access_token => 'your access token',
-    consumer_key => 'consumer key',
-  );
-
-  # retrieve entries from your Pocket.
-  my $res = $lite->retrieve( state => 'unread', tag => 'perl' );
-
-  # add a entry to your Pocket.
-  $lite->add( url => 'http://www.cpan.org' );
-
-  # add some entries and change tags of another entry with 1 request.
-  $lite->push_add( url => 'http://metacpan.org/' );
-  $lite->push_add( url => 'http://cpants.cpanauthors.org/' );
-  $lite->push_tags_replace( item_id => 100, tags => [qw/tag1 tag2/] );
-  $lite->send;
-
-=head1 DESCRIPTION
-
-WebService::Pocket::Lite is a Perl client for Pocket (formerly Read it Later).
-
 =head1 AUTHOR
 
 kiririmode E<lt>kiririmode@gmail.comE<gt>
 
 =head1 SEE ALSO
+
+getpocket.com
 
 =head1 LICENSE
 
