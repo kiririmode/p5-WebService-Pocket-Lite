@@ -38,7 +38,7 @@ use LWP::UserAgent;
 use JSON;
 use URI::Escape;
 use Class::Accessor::Lite (
-    ro => [ qw/consumer_key access_token/ ],
+    ro => [ qw/consumer_key/ ],
     rw => [ qw/request_token username access_token queue errorcode error user_limit user_remaining user_reset key_limit key_remaining key_reset/ ],
 );
 
