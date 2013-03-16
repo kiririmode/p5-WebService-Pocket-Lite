@@ -208,7 +208,7 @@ WebService::Pocket::Lite - Pocket Client for Perl
   # add a entry to your Pocket.
   $lite->add( url => 'http://www.cpan.org' );
 
-  # add some entries and change tags of another entry with 1 req.
+  # add some entries and change tags of another entry with 1 request.
   $lite->push_add( url => 'http://metacpan.org/' );
   $lite->push_add( url => 'http://cpants.cpanauthors.org/' );
   $lite->push_tags_replace( item_id => 100, tags => [qw/tag1 tag2/] );
