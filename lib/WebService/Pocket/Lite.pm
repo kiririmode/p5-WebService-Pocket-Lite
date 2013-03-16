@@ -38,8 +38,8 @@ use LWP::UserAgent;
 use JSON;
 use URI::Escape;
 use Class::Accessor::Lite (
-    ro => [ qw/request_token consumer_key access_token/ ],
-    rw => [ qw/username access_token queue errorcode error user_limit user_remaining user_reset key_limit key_remaining key_reset/ ],
+    ro => [ qw/consumer_key access_token/ ],
+    rw => [ qw/request_token username access_token queue errorcode error user_limit user_remaining user_reset key_limit key_remaining key_reset/ ],
 );
 
 our $VERSION = '0.01';
@@ -181,7 +181,29 @@ sub _replace_tags {
     $h;
 }
 
-=over 4
+=item retrieve_request_token( \%param )
+
+Obtain a request token.
+
+I<%param> must contain a C<redirect_url> key.  C<state> key is optional.
+By calling this method, you can obtain request_token with C<request_token> method.
+
+=cut
+
+sub retrieve_request_token {
+    my ($self, $arg) = @_;
+
+    _param_check({ redirect_url => 1, state => 0 }, $arg);
+
+    my $res = $self->_post('/oauth/request', {
+	%$arg,
+	consumer_key => $self->consumer_key,
+    });
+
+    $self->request_token( $res->{code} );
+
+    $self;
+}
 
 =item authorize()
 
