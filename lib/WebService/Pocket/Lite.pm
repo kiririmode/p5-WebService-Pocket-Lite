@@ -33,6 +33,7 @@ WebService::Pocket::Lite is a Perl client for Pocket (formerly Read it Later).
 
 use strict;
 use warnings;
+use Carp;
 use LWP::UserAgent;
 use JSON;
 use URI::Escape;
@@ -156,7 +157,7 @@ sub _post {
 	$self->error( $res->header('X-Error') );
 
 	my $caller = (caller(1))[3];
-	die "$caller failed.  Pocket says [", $self->error, "] ,", $res->status_line, "]";
+	Carp::croak "$caller failed.  Pocket says [", $self->error, "] ,", $res->status_line, "]";
     }
 
     from_json $res->decoded_content;
@@ -165,7 +166,7 @@ sub _post {
 sub _replace_tags {
     my $h = shift;
 
-    die "tags must be an HASH ref" unless ref($h) eq 'HASH';
+    Carp::croak "tags must be an HASH ref" unless ref($h) eq 'HASH';
 
     foreach my $k (keys %$h) {
 	if ( ref($h->{$k}) eq 'HASH' ) {
@@ -331,10 +332,10 @@ sub _param_check {
     my %rule = %$rule;
 
     # mandatory check
-    map { ( $rule->{$_} and not $arg->{$_})? die "parameter $_ is missing." : ()   } keys %rule;
+    map { ( $rule->{$_} and not $arg->{$_})? Carp::croak "parameter $_ is missing." : ()   } keys %rule;
 
     # not listed parameter
-    map { (not defined $rule->{$_})? die "$_ is not listed parameter." : ()      } keys %$arg;
+    map { (not defined $rule->{$_})? Carp::croak "$_ is not listed parameter." : ()      } keys %$arg;
 };
 
 1;
