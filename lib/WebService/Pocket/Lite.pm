@@ -347,7 +347,7 @@ sub _push {
     my ($self, $action, $param, $paramcheck) = @_;
 
     _param_check( $paramcheck, $param );
-    push $self->queue, {
+    push @{$self->queue}, {
 	action => $action,
 	%$param,
     };
