@@ -14,15 +14,15 @@ WebService::Pocket::Lite - Pocket Client for Perl
   );
 
   # retrieve entries from your Pocket.
-  my $res = $lite->retrieve( state => 'unread', tag => 'perl' );
+  my $res = $lite->retrieve({ state => 'unread', tag => 'perl' });
 
   # add a entry to your Pocket.
-  $lite->add( url => 'http://www.cpan.org' );
+  $lite->add({ url => 'http://www.cpan.org' });
 
   # add some entries and change tags of another entry with 1 request.
-  $lite->push_add( url => 'http://metacpan.org/' );
-  $lite->push_add( url => 'http://cpants.cpanauthors.org/' );
-  $lite->push_tags_replace( item_id => 100, tags => [qw/tag1 tag2/] );
+  $lite->push_add({ url => 'http://metacpan.org/' });
+  $lite->push_add({ url => 'http://cpants.cpanauthors.org/' });
+  $lite->push_tags_replace({ item_id => 100, tags => [qw/tag1 tag2/] });
   $lite->send;
 
 =head1 DESCRIPTION
@@ -289,9 +289,9 @@ This methods sends queued requests to Pocket in bulk.
 Requests can be queued by calling push_* methods.
 If queue is empty, it returns undef.
 
-    $lite->push_add( url => 'http://metacpan.org/' );
-    $lite->push_add( url => 'http://cpants.cpanauthors.org/' );
-    $lite->push_tags_replace( item_id => 100, tags => [qw/tag1 tag2/] );
+    $lite->push_add({ url => 'http://metacpan.org/' });
+    $lite->push_add({ url => 'http://cpants.cpanauthors.org/' });
+    $lite->push_tags_replace({ item_id => 100, tags => [qw/tag1 tag2/] });
     $lite->send;      # 3 requests are sent.
 
 
