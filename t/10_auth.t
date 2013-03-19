@@ -6,20 +6,20 @@ use Test::Exception;
 
 Test::LWP::UserAgent->map_response(
     qr[getpocket.com/v3/oauth/authorize] => sub {
-	my $req = shift;
+        my $req = shift;
 
-	if ( $req->content =~ /success/ ) {
-	    HTTP::Response->new( 200, 'OK', [], <<'AUTHORIZE' ),
+        if ( $req->content =~ /success/ ) {
+            HTTP::Response->new( 200, 'OK', [], <<'AUTHORIZE' ),
 {"access_token":"access_token",
 "username":"pocketuser"}
 AUTHORIZE
-	  }
-	else {
-	    HTTP::Response->new( 400, 'ERROR', [
-		'X-Error-Code' => 138,
-		'X-Error'      => 'Missing consumer key.'
-	    ]);
-	}
+          }
+        else {
+            HTTP::Response->new( 400, 'ERROR', [
+                'X-Error-Code' => 138,
+                'X-Error'      => 'Missing consumer key.'
+            ]);
+        }
     }
 );
 

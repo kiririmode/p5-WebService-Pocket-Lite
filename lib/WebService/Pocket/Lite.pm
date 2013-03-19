@@ -51,18 +51,18 @@ my %ratelimit_header_map = (
     'X-Limit-User-Reset'     => 'user_reset',
     'X-Limit-Key-Limit'      => 'key_limit',
     'X-Limit-Key-Remaining'  => 'key_remaining',
-    'X-Limit-Key-Reset'	     => 'key_reset'
+    'X-Limit-Key-Reset'      => 'key_reset'
 );
 
 my @api_sets = (
     [ 'push_add',         'add',          { item_id => 0, ref_id => 0, tags => 0, time => 0, title => 0, url => 1 } ],
     [ 'push_modify',      'add',          { item_id => 1, ref_id => 0, tags => 0, time => 0, title => 0, url => 0 } ],
     [ 'push_archive',     'archive',      { item_id => 1, time => 0, } ],
-    [ 'push_unarchive',	  'readd',        { item_id => 1, time => 0, } ],
-    [ 'push_favorite',	  'favorite',     { item_id => 1, time => 0, } ],
+    [ 'push_unarchive',   'readd',        { item_id => 1, time => 0, } ],
+    [ 'push_favorite',    'favorite',     { item_id => 1, time => 0, } ],
     [ 'push_unfavorite',  'unfavorite',   { item_id => 1, time => 0, } ],
-    [ 'push_delete',	  'delete',       { item_id => 1, time => 0, } ],
-    [ 'push_tags_add',	  'tags_add',     { item_id => 1, tags => 1, time => 0 } ],
+    [ 'push_delete',      'delete',       { item_id => 1, time => 0, } ],
+    [ 'push_tags_add',    'tags_add',     { item_id => 1, tags => 1, time => 0 } ],
     [ 'push_tags_remove', 'tags_remove',  { item_id => 1, tags => 1, time => 0 } ],
     [ 'push_tags_replace','tags_replace', { item_id => 1, tags => 1, time => 0 } ],
     [ 'push_tags_clear',  'tags_clear',   { item_id => 1, time => 0 } ],
@@ -73,11 +73,11 @@ my @api_sets = (
 {
     no strict 'refs';
     foreach my $set (@api_sets) {
-	my $method = __PACKAGE__ . '::' . $set->[0];
+        my $method = __PACKAGE__ . '::' . $set->[0];
         *{$method} = sub {
-	    my ($self, $param) = @_;
-	    $self->_push( $set->[1], $param, $set->[2] );
-	}
+            my ($self, $param) = @_;
+            $self->_push( $set->[1], $param, $set->[2] );
+        }
     }
 }
 
@@ -123,11 +123,11 @@ sub new {
     my ($class, %arg) = @_;
 
     bless {
-	ua            => $arg{ua} || LWP::UserAgent->new,
-	consumer_key  => $arg{consumer_key},
-	request_token => $arg{request_token},
-	access_token  => $arg{access_token},
-	queue         => [],
+        ua            => $arg{ua} || LWP::UserAgent->new,
+        consumer_key  => $arg{consumer_key},
+        request_token => $arg{request_token},
+        access_token  => $arg{access_token},
+        queue         => [],
     }, $class;
 }
 
@@ -137,27 +137,27 @@ sub _post {
     _replace_tags($param);
 
     my $res = $self->{ua}->post(
-	"$POCKET_URL$path", 
-	# headers
-	'Content-Type'  => 'application/json; charset=UTF-8',
-	# body
-	Content => to_json($param),
+        "$POCKET_URL$path", 
+        # headers
+        'Content-Type'  => 'application/json; charset=UTF-8',
+        # body
+        Content => to_json($param),
     );
 
     foreach my $header (keys %ratelimit_header_map) {
-	my $methodname = $ratelimit_header_map{$header};
-	my $val = $res->header($header);
+        my $methodname = $ratelimit_header_map{$header};
+        my $val = $res->header($header);
 
-	$self->$methodname( $val ) if defined $val;
+        $self->$methodname( $val ) if defined $val;
     }
 
     if ( not $res->is_success ) {
 
-	$self->errorcode( $res->header('X-Error-Code') );
-	$self->error( $res->header('X-Error') );
+        $self->errorcode( $res->header('X-Error-Code') );
+        $self->error( $res->header('X-Error') );
 
-	my $caller = (caller(1))[3];
-	Carp::croak "$caller failed.  Pocket says [", $self->error, "] ,", $res->status_line, "]";
+        my $caller = (caller(1))[3];
+        Carp::croak "$caller failed.  Pocket says [", $self->error, "] ,", $res->status_line, "]";
     }
 
     from_json $res->decoded_content;
@@ -169,13 +169,13 @@ sub _replace_tags {
     Carp::croak "tags must be an HASH ref" unless ref($h) eq 'HASH';
 
     foreach my $k (keys %$h) {
-	if ( ref($h->{$k}) eq 'HASH' ) {
-	    _replace_tags($h->{$k});
-	}
+        if ( ref($h->{$k}) eq 'HASH' ) {
+            _replace_tags($h->{$k});
+        }
 
-	if ( $k eq 'tags' ) {
-	    $h->{$k} = join "," => @{$h->{$k}};
-	}
+        if ( $k eq 'tags' ) {
+            $h->{$k} = join "," => @{$h->{$k}};
+        }
     }
 
     $h;
@@ -198,8 +198,8 @@ sub retrieve_request_token {
     _param_check({ redirect_url => 1, state => 0 }, $arg);
 
     my $res = $self->_post('/oauth/request', {
-	%$arg,
-	consumer_key => $self->consumer_key,
+        %$arg,
+        consumer_key => $self->consumer_key,
     });
 
     $self->request_token( $res->{code} );
@@ -220,8 +220,8 @@ sub authorize {
     my ($self) = @_;
 
     my $res = $self->_post('/oauth/authorize', {
-	consumer_key => $self->consumer_key,
-	code         => $self->request_token,
+        consumer_key => $self->consumer_key,
+        code         => $self->request_token,
     });
 
     $self->username( $res->{username} );
@@ -245,9 +245,9 @@ sub add {
     _param_check({ url => 1, title => 0, tags => 0, tweet_id => 0 }, $arg);
 
     my $res = $self->_post('/add', {
-	%$arg,
-	consumer_key => $self->consumer_key,
-	access_token => $self->access_token,
+        %$arg,
+        consumer_key => $self->consumer_key,
+        access_token => $self->access_token,
     });
 
     $res->{item}->{item_id};
@@ -273,12 +273,12 @@ Sample Code:
 sub retrieve {
     my ($self, $arg) = @_;
     _param_check({ state => 0, favorite => 0, tag => 0, contentType => 0, sort => 0,
-		   detailType => 0, search => 0, domain => 0, since => 0, count => 0, offset => 0 });
+                   detailType => 0, search => 0, domain => 0, since => 0, count => 0, offset => 0 });
 
     my $res => $self->_post('/get', {
-	%$arg,
-	consumer_key => $self->consumer_key,
-	access_token => $self->access_token,
+        %$arg,
+        consumer_key => $self->consumer_key,
+        access_token => $self->access_token,
     });
 }
 
@@ -332,9 +332,9 @@ sub send {
     return if scalar @{$self->queue} == 0;
 
     my $res = $self->_post('/send', {
-	actions      => $self->queue,
-	consumer_key => $self->consumer_key,
-	access_token => $self->access_token,
+        actions      => $self->queue,
+        consumer_key => $self->consumer_key,
+        access_token => $self->access_token,
     });
 
     # clear queued actions.
@@ -348,8 +348,8 @@ sub _push {
 
     _param_check( $paramcheck, $param );
     push @{$self->queue}, {
-	action => $action,
-	%$param,
+        action => $action,
+        %$param,
     };
 }
 
