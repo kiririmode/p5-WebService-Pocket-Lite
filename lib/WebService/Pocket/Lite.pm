@@ -123,7 +123,7 @@ sub new {
     my ($class, %arg) = @_;
 
     bless {
-        ua            => $arg{ua} || LWP::UserAgent->new,
+        ua            => $arg{ua} || LWP::UserAgent->new( agent => "WebService::Pocket::Lite/$VERSION" ),
         consumer_key  => $arg{consumer_key},
         request_token => $arg{request_token},
         access_token  => $arg{access_token},
