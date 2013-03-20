@@ -273,7 +273,7 @@ Sample Code:
 sub retrieve {
     my ($self, $arg) = @_;
     _param_check({ state => 0, favorite => 0, tag => 0, contentType => 0, sort => 0,
-                   detailType => 0, search => 0, domain => 0, since => 0, count => 0, offset => 0 });
+                   detailType => 0, search => 0, domain => 0, since => 0, count => 0, offset => 0 }, $arg);
 
     my $res => $self->_post('/get', {
         %$arg,
@@ -355,6 +355,10 @@ sub _push {
 
 sub _param_check {
     my ($rule, $arg) = @_;
+
+    if ( not defined($arg) or ref($arg) ne 'HASH' ) {
+        Carp::croak '$arg must be HASH ref';
+    }
 
     my %rule = %$rule;
 
