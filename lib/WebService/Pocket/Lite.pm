@@ -292,7 +292,7 @@ If queue is empty, it returns undef.
     $lite->push_add({ url => 'http://metacpan.org/' });
     $lite->push_add({ url => 'http://cpants.cpanauthors.org/' });
     $lite->push_tags_replace({ item_id => 100, tags => [qw/tag1 tag2/] });
-    $lite->send;      # 3 requests are sent.
+    $lite->send;      # above 3 requests are sent.
 
 
 push_* methods are as follows.
