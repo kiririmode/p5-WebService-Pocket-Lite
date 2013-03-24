@@ -1,5 +1,5 @@
 use strict;
-use Test::More;
+use Test::More tests => 1;
 use WebService::Pocket::Lite;
 use Test::LWP::UserAgent;
 use Test::Exception;
@@ -35,5 +35,3 @@ my $lite = WebService::Pocket::Lite->new(
 
 my $res;
 lives_ok { $res = $lite->retrieve({ tag => 'test1' }) };
-
-done_testing;

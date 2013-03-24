@@ -1,5 +1,5 @@
 use strict;
-use Test::More;
+use Test::More tests => 2;
 use WebService::Pocket::Lite;
 use Test::LWP::UserAgent;
 use Test::Exception;
@@ -16,5 +16,3 @@ my $lite = WebService::Pocket::Lite->new(
 
 lives_ok { $lite->retrieve_request_token({ redirect_url => 'http://example.com' })}, 'request_token';
 is $lite->request_token, 'dcba4321-dcba-4321-dcba-4321dc';
-
-done_testing;

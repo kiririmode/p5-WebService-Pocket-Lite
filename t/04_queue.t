@@ -1,5 +1,5 @@
 use strict;
-use Test::More;
+use Test::More tests => 5;
 use WebService::Pocket::Lite;
 use Test::LWP::UserAgent;
 
@@ -25,5 +25,3 @@ $lite->send;
 is scalar(@{$lite->queue}), 0;
 
 ok not defined($lite->send);
-
-done_testing;

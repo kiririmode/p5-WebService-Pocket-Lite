@@ -1,5 +1,5 @@
 use strict;
-use Test::More;
+use Test::More tests => 2;
 use WebService::Pocket::Lite;
 use Test::LWP::UserAgent;
 use Test::Exception;
@@ -19,5 +19,3 @@ my $lite = WebService::Pocket::Lite->new(
 my $item_id;
 lives_ok { $item_id = $lite->add({ url => 'foo' }) } '/add API';
 is $item_id, 1;
-
-done_testing;

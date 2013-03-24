@@ -1,5 +1,5 @@
 use strict;
-use Test::More;
+use Test::More tests => 2;
 use WebService::Pocket::Lite;
 use Test::LWP::UserAgent;
 use Test::Exception;
@@ -21,5 +21,3 @@ $lite->push_add({ url => 'test2' });
 my $status;
 lives_ok { $status = $lite->send() } '/send API';
 is $status, 1;
-
-done_testing;

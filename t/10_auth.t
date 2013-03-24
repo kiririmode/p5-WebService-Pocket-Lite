@@ -1,5 +1,5 @@
 use strict;
-use Test::More;
+use Test::More tests => 5;
 use WebService::Pocket::Lite;
 use Test::LWP::UserAgent;
 use Test::Exception;
@@ -43,5 +43,3 @@ throws_ok { $failure_lite->authorize; } qr/failed/, 'authentication error';
 
 is $failure_lite->error, 'Missing consumer key.';
 is $failure_lite->errorcode, 138;
-
-done_testing;

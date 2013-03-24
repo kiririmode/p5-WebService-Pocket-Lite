@@ -1,5 +1,5 @@
 use strict;
-use Test::More;
+use Test::More tests => 1;
 use WebService::Pocket::Lite;
 
 is_deeply WebService::Pocket::Lite::_replace_tags( {
@@ -18,5 +18,3 @@ is_deeply WebService::Pocket::Lite::_replace_tags( {
         tags => 'd,e,f'
     }
 };
-
-done_testing;

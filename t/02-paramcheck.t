@@ -1,5 +1,5 @@
 use strict;
-use Test::More;
+use Test::More tests => 6;
 use WebService::Pocket::Lite;
 use Test::Exception;
 
@@ -10,5 +10,3 @@ throws_ok { WebService::Pocket::Lite::_param_check({ foo => 1 }, {foo => 'FOO', 
 
 throws_ok { WebService::Pocket::Lite::_param_check({ foo => 1 })     } qr/must be HASH ref/, 'no $arg';
 throws_ok { WebService::Pocket::Lite::_param_check({ foo => 1 }), [] } qr/must be HASH ref/, 'not HASH ref';
-
-done_testing;
